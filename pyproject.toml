@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "duck-rabbit-enc"
+version = "0.0.1"
+authors = [
+  {name="James Schmidt"}
+]
+description = ""
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "scikit-learn",
+  "matplotlib",
+  "numpy",
+  "pandas",
+  "requests",
+  "pytest >7,<8",
+  "python-gnupg",
+  "gnupg",
+  "cryptography"
+]
+[tool.setuptools.packages.find]
+include = ['src']
+
+[tool.pytest.ini_options]
+#pythonpath = '.'
+#testpaths = ['test']
+log_cli = 'True'
