@@ -22,8 +22,7 @@ dependencies = [
   "pandas",
   "requests",
   "pytest >7,<8",
-  "python-gnupg",
-  "gnupg",
+  "pretty-bad-protocol",
   "cryptography"
 ]
 [tool.setuptools.packages.find]
