@@ -7,6 +7,7 @@ from hashlib import sha512 as sha
 from Crypto.PublicKey import RSA as rsa 
 from Crypto.Cipher import AES as aes, PKCS1_OAEP as pkcs 
 from Crypto.Random import get_random_bytes 
+from utils import * 
     
 if __name__ == "__main__":
     #TODO: eliminate enttiy prefix in directory / handle self & target ids better, rn hardcoded 
@@ -25,8 +26,11 @@ if __name__ == "__main__":
     target_card_plain = {}
     target_card_hashed = {}
     tkey = rsa.import_key(tcard["public_key"])
-    public_key = plain_card.pop("public_key")
-    target_card_plain["public_key"] = public_key
+    public_key = plain_card.get("public_key")
+    try:
+        target_card_plain["public_key"] = public_key
+    except KeyError:
+        print("error: card has no public_key")
     target_card_hashed["public_key"] = dencode(public_key,keys.d,keys.n)
     for k,v in plain_card.items():
         response = input(f"include entry for {k}?: y/n ")
