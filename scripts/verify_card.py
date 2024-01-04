@@ -28,15 +28,14 @@ if __name__ == "__main__":
             public_key = pt_card["public_key"]
             pk_rsa = rsa.import_key(public_key)
             assert verify_entry(cards,hv,pk_rsa), "hash not verified, data may have been altered!"
-            verified_card_plain = {"verifier_key":own_key.public_key().export_key(),"public_key":public_key}
-            verified_card_hash =  {"verifier_key":own_key.public_key().export_key(),"public_key":public_key}
+            verified_card = {"verifier_key":own_key.public_key().export_key(),"vid":uid,"public_key":public_key}
             for k,pv in pt_card.items():
                 hv = hash_card[k]
                 if verify_entry(pv,hv,pk_rsa):
-                    verified_card_plain[k] = dencode(pv,own_key.d,own_key.n)
-                    verified_card_hash[k] = dencode(hv,own_key.d,own_key.n)
-            v_cards = {"plain":verified_card_plain,"hashed":verified_card_hash}
-            v_hash = dencode(cards,own_key.d,own_key.n)
-            v_path = os.path.join(path_prefix,file_name[:-10]+"_verified.txt")
-            enc_card = encrypt_plaintext(str({"cards":v_cards,"signed_hash":v_hash}),pk_rsa,v_path)
+                    verified_card[k] = dencode(hv,own_key.d,own_key.n)
+            v_hash = dencode(str(verified_card),own_key.d,own_key.n)
+            path_prefix = os.path.join("cards","p_"+str(pt_card['uid']))
+            #Notice that we save verified data in verified's directory with verifi*ers* id in file name
+            v_path = os.path.join(path_prefix,str(uid)+"_verified.txt")
+            enc_card = encrypt_plaintext(str({"verified_card":verified_card,"signed_hash":v_hash}),pk_rsa,v_path)
 
